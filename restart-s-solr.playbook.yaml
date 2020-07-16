@@ -1,0 +1,12 @@
+---
+#
+# copy modified upgrade script
+- name: Restart SOLR on s-solr002
+  hosts: s-solr002.ec2.liblime.com
+  tasks:
+
+    - name: stop solr on s-siolr002
+      command: /etc/init.d/solr stop
+
+    - name: start solr on s-siolr002
+      command: /etc/init.d/solr stop

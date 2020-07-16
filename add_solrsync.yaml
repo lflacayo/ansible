@@ -1,0 +1,23 @@
+---
+- hosts: s-app003.ec2.liblime.com
+  tasks:
+  - name: Add to Solrsync-txt  lak-6_02
+    lineinfile:
+      path: /home/liblime/etc/multibasis-2.02.txt
+      line: "/home/{{ CUST }}/etc/kohabasis.yaml"
+      state: present
+      backup: yes
+
+
+  - name: Add to Solrsync-txt  lak-6_02
+    lineinfile:
+      path: /home/liblime/etc/multibasis-1.09.txt
+      line: "/home/{{ CUST }}/etc/kohabasis.yaml"
+      state: absent
+      backup: yes
+
+  - name: Restart Sorlsync for V1.09
+    command: svc -t /etc/service/solrsync-2.02
+
+  - name: Restart Solrsync for V2.02
+    command: svc -t /etc/service/solrsync-2.02

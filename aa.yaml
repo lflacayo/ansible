@@ -1,0 +1,29 @@
+---
+#
+#  ansible-playbook  maint-playbook.yaml 
+# ansible test file. 
+
+- name: Copy Templates
+  hosts: s-lb1.ec2.liblime.com
+  tasks:
+    - name: copy 1maintanence to s-lb1
+      template:
+        src: nginx.j2
+        dest: /etc/nginx/sites-enabled/1maintainance
+        mode: 0755
+
+    - name: Remove site from S2-LAK-6_00 sites.
+      lineinfile: 
+        path: /etc/nginx/sites-enabled/s2-lak-6_00
+        regexp: "{{ CUST }}-sandbox.bibliovation.com"
+        state: absent
+
+    - name: Add line to S2-LAK-6_02 sites.
+      lineinfile: 
+        path: /etc/nginx/sites-enabled/s2-lak-6_02
+        insertbefore: '# Add before'
+        line: "   {{ CUST }}-sandbox.bibliovation.com "
+        state: present
+
+    - name: restart NGINX 
+      command: /etc/init.d/nginx restart

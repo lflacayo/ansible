@@ -1,0 +1,30 @@
+server {
+  server_name 1maintenance
+
+#  Customer file. 
+
+  testlak.kohalibrary.com
+
+
+  ;
+
+  listen 80;
+  listen 443 ssl;
+  server_name_in_redirect off;
+
+  ssl_certificate     /etc/nginx/ssl/star_kohalibrary_com.pem;
+  ssl_certificate_key /etc/nginx/ssl/star_kohalibrary_com.key;
+  ssl_dhparam         /etc/nginx/ssl/dhparams.pem;
+
+  root /var/www/html;
+
+  location / {
+    types { } default_type "text/html";
+    return 200 "<h1><center>This website is currently undergoing maintenance</center></h1>";
+  }
+
+  location /robots.txt {
+    return 200 "User-agent: *\nDisallow: /\n\nUser-agent: Googlebot\nAllow: /";
+  }
+
+}

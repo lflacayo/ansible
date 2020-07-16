@@ -1,0 +1,20 @@
+---
+#
+#  ansible-playbook upgrade-playbook.yaml
+# copy modified upgrade script
+- name: Copy Upgrade Script to s-app003
+  hosts: s-app003.ec2.liblime.com
+  tasks:
+    - name: Remove upgrade script from s-app003
+      file:
+        path: /usr/local/bin/lak-6_02_upgrade.sh
+        state: absent
+
+    - name: copy upgrade script to s-app003
+      copy:
+        src: lak-6_02_upgrade.sh
+        dest: /usr/local/bin/lak-6_02_upgrade.sh
+        mode: 0755
+
+    - name: Run Upgrade LAK-6_02  Script
+      command: /usr/local/bin/lak-6_02_upgrade.sh

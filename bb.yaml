@@ -1,0 +1,46 @@
+---
+#
+#  ansible-playbook bb.yaml -e CUST=
+# copy modified upgrade script
+- name: Copy Upgrade Script to s-app003
+  hosts: s-app003.ec2.liblime.com
+  tasks:
+    - name: copy upgrade script to s-app003
+      lineinfile:
+        path: /usr/local/bin/lak-6_02_upgrade.sh
+        regexp: '^for i in '
+        line: for i in {{ CUST}}
+
+    - name: Run Upgrade LAK-6_02  Script
+      command: /usr/local/bin/lak-6_02_upgrade.sh
+
+
+    - name: Remove site from S2-LAK-6_00 plack config
+      lineinfile:
+        path: /home/liblime/etc/kox-v2.02-bases.json.lfl
+        regexp: "{{ CUST }}"
+        state: absent
+
+#  Im adding the next 3 lines in reverse order..         
+
+    - name: Add line to S2-LAK-6_02 plack config
+      lineinfile:
+        path: /home/liblime/etc/kox-v2.02-bases.json.lfl2
+        insertafter: '\"map\":\['
+        line: '          "file": "/home/{{ CUST }}/etc/kohabasis.yaml" },'
+        state: present
+
+    - name: Add line to S2-LAK-6_02 plack config
+      lineinfile:
+        path: /home/liblime/etc/kox-v2.02-bases.json.lfl2
+        insertafter: '\"map\":\['
+        line: '        { "host": "{{ CUST }}(?:-\\w+)?\\.waldo\\.sandbox",'
+        state: present
+       
+    - name: Add blank line to S2-LAK-6_02 plack config
+      lineinfile:
+        path: /home/liblime/etc/kox-v2.02-bases.json.lfl2
+        insertafter: '\"map\":\['
+        line: '     '
+        state: present
+

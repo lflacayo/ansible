@@ -1,0 +1,16 @@
+- name: "Installing Modules"
+  apt: pkg={{ item }} state=present
+  with_items:
+  - dnsutils
+  - git
+  - vim
+  - ntp
+  - at 
+  - locate 
+  - munin-node
+
+- name: "Setup NRPE configuration file"
+  template: src=../files/nrpe.cfg dest=/usr/local/nagios/etc/nrpe2.cfg owner=nagios group=nagios mode=0644
+
+- name: "Setup Munin configuration file"
+  template: src=../files/munin-node.conf dest=/etc/munin/munin-node.conf  owner=root group=root mode=0644

@@ -1,0 +1,5 @@
+---
+- hosts: s-lb1
+  roles:
+  - lak-6_02
+

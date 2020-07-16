@@ -1,0 +1,12 @@
+- name: "Setup NGINX maintenance configuration file"
+  template: src=/root/ansible/roles/lak-6_02/files/1maintainance  dest=/etc/nginx/sites-enabled/1maintenance
+
+- name: "Upload the upgrade script"
+  template: src=/root/ansible/roles/lak-6_02/files/lak-6_02_upgrade.sh  dest=/usr/local/bin/upgrade.602.sh 
+
+- name: "Change script permissions"
+  file:
+    path: /usr/local/bin/upgrade.602.sh
+    mode: 0755
+
+

@@ -1,0 +1,20 @@
+---
+#
+#  ansible-playbook restart-plack-playbook.yaml
+# copy modified upgrade script
+- name: Restart Plack on s-web003
+  hosts: s-web003.ec2.liblime.com
+  tasks:
+
+
+    - name: restart Plack lak-600
+      command: /usr/bin/svc -t /etc/service/lak-6_00
+
+    - name: restart Plack lak-602
+      command: /usr/bin/svc -t /etc/service/lak-6_02
+
+    - name: restart GetIt lak-600
+      command: /usr/bin/svc -t /etc/service/getit-6_00
+
+    - name: restart GetIt lak-602
+      command: /usr/bin/svc -t /etc/service/getit-6_02

@@ -1,0 +1,17 @@
+---
+#
+#  ansible-playbook  maint-playbook.yaml 
+# ansible test file. 
+
+- name: Copy Templates
+  hosts: s-lb1.ec2.liblime.com
+  tasks:
+    - name: copy 1maintanence to s-lb1
+      copy:
+        src: 1maintainance
+        dest: /etc/nginx/sites-enabled/1maintainance
+        mode: 0755
+
+    - name: restart NGINX 
+      command: /etc/init.d/nginx restart
+

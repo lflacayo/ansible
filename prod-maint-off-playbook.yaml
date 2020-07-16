@@ -1,0 +1,16 @@
+---
+#
+#  ansible-playbook  maint-playbook.yaml 
+# ansible test file. 
+
+- name: remove 
+  hosts: lb1.ec2.liblime.com
+  tasks:
+    - name: Remove the Maintance page from lb1
+      file:
+        path: /etc/nginx/sites-enabled/1maintainance
+        state: absent
+
+    - name: restart NGINX 
+      command: /etc/init.d/nginx reload
+
